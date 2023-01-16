@@ -3,6 +3,7 @@ import { LoginScreen, RegisterScreen } from "./src/Presentacion/pantallas";
 
 import { COLORES } from "./src/constantes/tema/colores";
 import { NavigationContainer } from "@react-navigation/native";
+import { ProfileInfoScreen } from "./src/Presentacion/pantallas/profile/info/ProfileInfo";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { styles } from "./styles";
@@ -11,6 +12,7 @@ import { useFonts } from "expo-font";
 export type RootStackParamList = {
     LoginScreen: undefined,
     RegisterScreen: undefined,
+    ProfileInfoScreen:undefined,
   }
   
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -44,6 +46,11 @@ export default function App() {
           name="RegisterScreen"
           component={RegisterScreen}
           options={{ title: "Registro" }}
+        />
+        <Stack.Screen
+          name="ProfileInfoScreen"
+          component={ProfileInfoScreen}
+          options={{ title: "Perfil" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

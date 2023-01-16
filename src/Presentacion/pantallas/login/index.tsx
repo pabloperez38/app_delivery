@@ -1,17 +1,19 @@
 import { Image, Text, ToastAndroid, View } from "react-native";
 import React, {useEffect} from "react";
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 
 import Boton from "../../componentes/boton";
 import InputText from "../../componentes/input";
 import { RootStackParamList } from '../../../../App';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import useViewModel from "./ViewModel";
 
-const LoginScreen = () => {
-  const { email, password, onChange, login, errorMessage } = useViewModel();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+interface Props extends StackScreenProps<RootStackParamList, "LoginScreen">{};
+
+export const LoginScreen = ({navigation, route}: Props) => {
+  const { email, password, onChange, login, errorMessage, user } = useViewModel();
+ 
 
   const goToRegister = () => {
     navigation.navigate("RegisterScreen");
@@ -24,6 +26,13 @@ const LoginScreen = () => {
     }
    
   }, [errorMessage])
+  
+  useEffect(() => {
+    if(user?.id !== null && user?.id !== undefined)
+    {
+      navigation.replace("ProfileInfoScreen");
+    }
+  }, [user])
   
 
   return (
