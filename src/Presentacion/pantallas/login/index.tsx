@@ -1,8 +1,8 @@
 import { Image, Text, ToastAndroid, View } from "react-native";
+import React, {useEffect} from "react";
 
 import Boton from "../../componentes/boton";
 import InputText from "../../componentes/input";
-import React from "react";
 import { RootStackParamList } from '../../../../App';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { styles } from "./styles";
@@ -10,12 +10,21 @@ import { useNavigation } from "@react-navigation/native";
 import useViewModel from "./ViewModel";
 
 const LoginScreen = () => {
-  const { email, password, onChange } = useViewModel();
+  const { email, password, onChange, login, errorMessage } = useViewModel();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const goToRegister = () => {
     navigation.navigate("RegisterScreen");
   };
+
+  useEffect(() => {
+
+    if(errorMessage!==""){
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+    }
+   
+  }, [errorMessage])
+  
 
   return (
     <View style={styles.container}>
@@ -49,7 +58,7 @@ const LoginScreen = () => {
           icono="eye-off-outline"
         />
         <View style={styles.containerButton}>
-          <Boton titulo="INICIAR SESIÓN" onPress={() => console.log(email)} />
+          <Boton titulo="INICIAR SESIÓN" onPress={() => login()} />
         </View>
         <View style={styles.textoBottom}>
           <Text style={styles.text1}>No tienes cuenta?</Text>

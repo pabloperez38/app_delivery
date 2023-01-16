@@ -5,4 +5,5 @@ export interface User {
     phone:             string;
     password:          string;
     confirmarPassword: string;
+    session_token?:     string;
 }
