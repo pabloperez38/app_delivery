@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { LoginAuthUseCase } from '../../../Domain/useCases/auth/LoginAuth'
-import { SaveUserUseCase } from '../../../Domain/useCases/userLocal/SaveUser'; 
-import { GetUserUseCase } from '../../../Domain/useCases/userLocal/GetUser';
+import { SaveUserLocalUseCase } from '../../../Domain/useCases/userLocal/SaveUserLocal'; 
+import { GetUserLocalUseCase } from '../../../Domain/useCases/userLocal/GetUserLocal';
+import { useUserLocal } from '../../hooks/useUserLocal';
 
 const HomeViewModel = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -9,16 +10,10 @@ const HomeViewModel = () => {
     const [values, setValues] = useState({
         email: "",
         password: ""
-    })
+    });
 
-    useEffect(() => {
-        getUserSession()
-    }, [])
-    
-    const getUserSession = async() => {
-        const user = await GetUserUseCase();
-        console.log("USUARIO SESION " + JSON.stringify(user));
-    }
+    const {user, getUserSession} = useUserLocal();
+    console.log("USUARIO DE SESION: " + JSON.stringify(user));
 
     const onChange = (property: string, value: any) => {
         setValues({ ...values, [property]:value })
@@ -31,7 +26,8 @@ const HomeViewModel = () => {
             if(!response.success){
                 setErrorMessage(response.message);  
             }else{
-                await SaveUserUseCase(response.data);
+                await SaveUserLocalUseCase(response.data);
+                getUserSession();
             }
         }       
     }
@@ -55,7 +51,8 @@ const HomeViewModel = () => {
         ...values,
         onChange,
         errorMessage,
-        login
+        login,
+        user
     }
 }
 

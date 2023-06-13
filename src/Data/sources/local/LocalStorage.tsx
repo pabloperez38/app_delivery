@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export const LocalStorage = ( )=>{
+
     const save = async(key:string, value:string) => {
         try {
             await AsyncStorage.setItem(key, value);
@@ -22,8 +23,19 @@ export const LocalStorage = ( )=>{
         }
     }
 
+    const remove = async(key:string) => {
+        try {
+            await AsyncStorage.removeItem(key);
+        } catch (error) {
+
+            console.log("ERROR EN LOCAL STORAGE" + error)
+            
+        }
+    }
+
     return {
         save,
-        getItem
+        getItem,
+        remove
     }
 }

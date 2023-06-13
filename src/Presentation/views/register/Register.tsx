@@ -10,7 +10,7 @@ import { CustonTextInput } from '../../components/CustomTextInput/CustonTextInpu
 
 export const RegisterScreen = () => {
 
-  const {name,lastName,phone,email,password,confirmPassword,onChange,register,errorMessage} = useViewModel();
+  const {name,lastName,phone,email,image,password,confirmPassword,onChange,register,errorMessage, pickImage} = useViewModel();
 
   useEffect(() => {
     if(errorMessage !=""){
@@ -27,10 +27,20 @@ export const RegisterScreen = () => {
           style={styles.imageBackground}
           />
           <View style={styles.logoContainter}>
-            <Image
-            source={require("../../../../assets/user_image.png")}
-            style={styles.logoImage}
-            />
+            <TouchableOpacity onPress={() => pickImage()}>
+              {
+                image == ""
+                ?<Image
+                  source={require("../../../../assets/user_image.png")}
+                  style={styles.logoImage}
+              />
+                :<Image
+                  source={{uri:image}}
+                  style={styles.logoImage}
+                />
+              }
+              
+            </TouchableOpacity>
             <Text style={styles.logoText}>SELECCIONA UNA IMAGEN</Text>
           </View>
           <View style={styles.form}>
